@@ -135,7 +135,7 @@ const MainSponsors: React.FC = () => {
 
       {/* Eyes */}
       <div className="flex justify-center gap-12 mt-10">
-        <div className="w-[13%] max-sm:w-[30%] max-md:w-[20%] aspect-square  bg-white/10 border-white/20 border-[3px] rounded-full" />
+        <div className="w-[13%] max-sm:w-[30%] max-md:w-[20%] aspect-square  bg-white/10 border-white/20 borde  r-[3px] rounded-full" />
         <div className="w-[13%] max-sm:w-[30%] max-md:w-[20%] aspect-square  bg-white/10 border-white/20 border-[3px] rounded-full" />
       </div>
 
@@ -168,7 +168,7 @@ const MainSponsors: React.FC = () => {
               }}
             >
               <div className="w-0.5 h-8 bg-white" />
-              <HangingSponsor />
+              <HangingSponsor imageURL={null} />
             </div>
           ))}
         </>
@@ -221,7 +221,7 @@ const MainSponsors: React.FC = () => {
               }}
             >
               <div className="w-0.5 h-6 bg-white" />
-              <HangingSponsor />
+              <HangingSponsor imageURL={null} />
             </div>
           ))}
 
@@ -237,7 +237,7 @@ const MainSponsors: React.FC = () => {
               }}
             >
               <div className="w-0.5 h-6 bg-white" />
-              <HangingSponsor />
+              <HangingSponsor imageURL={null} />
             </div>
           ))}
         </>
