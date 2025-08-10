@@ -4,7 +4,8 @@ import {
 } from '@/Constants/Sponsers/PastSponsors';
 import Footer from '@/Components/Other/Footer';
 import { useNavigate } from 'react-router-dom';
-import SponsersPageUi from '@/Components/ui/SponsersPageUi';
+// import SponsersPageUi from '@/Components/ui/SponsersPageUi';
+import BoltSponsers from '@/Components/ui/BoltSponsers';
 
 const Sponsors = () => {
     // Combine all sponsors from both years
@@ -42,20 +43,26 @@ const Sponsors = () => {
                     </h1>
 
                     {/* Sponsors Grid - 2 per row on mobile, 4 on desktop */}
-                    <div className="w-full max-w-6xl z-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-16">
+                        {allSponsors.map((sponsor) => (
+                            <BoltSponsers sponsor={sponsor} />
+                        ))}
+                    </div>
+                    {/* <div className="w-full max-w-6xl z-10">
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                             {allSponsors.map((sponsor, index) => (
                                 <div
                                     key={index}
                                     className="flex justify-center">
-                                    <SponsersPageUi
+                                    {/* <SponsersPageUi
                                         imageURL={sponsor.src}
                                         alt={sponsor.name}
-                                    />
+                                    /> /////*}
+                                    <BoltSponsers sponsor={sponsor} />
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
