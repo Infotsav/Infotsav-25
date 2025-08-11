@@ -37,18 +37,19 @@ const AboutUs = () => {
                 </h2>
                 <p className="text-white text-base md:text-lg lg:text-xl font-naluka leading-relaxed tracking-wider">
                     Infotsav is the flagship fest of ABV-IIITM, Gwalior,
-                    celebrating technology, management, and innovation. It
-                    ignites creativity and fosters competition among students
+                    celebrating technology, cultural, management, and robotics.
+                    It ignites creativity and fosters competition among students
                     from top institutions. Sponsored by leading tech companies,
-                    it features hackathons, coding competitions, quizzes, and
-                    case studies, testing technical and managerial skills.
+                    it features hackathons, coding competitions, cultural
+                    performances, and case studies, testing technical and
+                    managerial skills.
                     <br />
                     <br />
                     More than a competition, Infotsav offers national exposure,
                     industry connections, and talent showcase. Participants can
                     win substantial prizes, but the real reward is the
-                    experience and recognition. From October 18th to 20th,
-                    Infotsav 2024 promises three days of competition, learning,
+                    experience and recognition. From October 10th to 12th,
+                    Infotsav 2025 promises three days of competition, learning,
                     and networking for coders, managers, developers, and
                     thinkers.
                 </p>

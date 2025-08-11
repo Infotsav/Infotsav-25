@@ -1,21 +1,14 @@
-import {
-    PastSponsors19,
-    PastSponsors24,
-} from '@/Constants/Sponsers/PastSponsors';
 import Footer from '@/Components/Other/Footer';
 import { useNavigate } from 'react-router-dom';
-// import SponsersPageUi from '@/Components/ui/SponsersPageUi';
-import BoltSponsers from '@/Components/ui/BoltSponsers';
+import BubbleSponsors from '@/Components/ui/BubbleSponsors';
 
 const Sponsors = () => {
-    // Combine all sponsors from both years
-    const allSponsors = [...PastSponsors19, ...PastSponsors24];
     const navigate = useNavigate();
 
     return (
         <div className="relative w-full min-h-screen">
             {/* Teal Blur Background - Fixed positioning for scroll - Responsive */}
-            <div className="w-[800px] h-[800px] md:w-[1286px] md:h-[1286px] bg-gradient-to-b from-slate-950/90 to-teal-700/90 rounded-full blur-[253.95px] fixed -top-[400px] left-[10px] md:-top-[800px] md:left-[120px] z-0" />
+            <div className="w-[800px] h-[800px] md:w-[1286px] md:h-[1286px] bg-gradient-to-b from-slate-950/90 to-[#246485] rounded-full blur-[253.95px] fixed -top-[400px] left-[10px] md:-top-[800px] md:left-[120px] z-0" />
 
             {/* Back Arrow Button */}
             <button
@@ -38,31 +31,25 @@ const Sponsors = () => {
 
             <div className="py-16">
                 <div className="flex flex-col items-center gap-16 px-8">
-                    <h1 className="text-6xl md:text-7xl lg:text-8xl font-cattedrale text-white z-10">
-                        Our Sponsors
+                    <h1 className="text-6xl md:text-7xl lg:text-8xl font-cattedrale text-white z-10 text-center">
+                        Past Sponsors
                     </h1>
 
-                    {/* Sponsors Grid - 2 per row on mobile, 4 on desktop */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-16">
-                        {allSponsors.map((sponsor) => (
-                            <BoltSponsers sponsor={sponsor} />
-                        ))}
+                    {/* Interactive Bubble UI for Sponsors */}
+                    {/* <div className="w-full max-w-7xl z-10"> */}
+                    <BubbleSponsors className="w-full" />
+                    {/* </div> */}
+
+                    {/* Instructions */}
+                    <div className="text-center z-10">
+                        <p className="text-white/70 text-lg mb-2">
+                            🖱️ Drag to explore • 👆 Click to select
+                        </p>
+                        <p className="text-white/50 text-sm">
+                            Interactive bubble interface showcasing our amazing
+                            sponsors
+                        </p>
                     </div>
-                    {/* <div className="w-full max-w-6xl z-10">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-                            {allSponsors.map((sponsor, index) => (
-                                <div
-                                    key={index}
-                                    className="flex justify-center">
-                                    {/* <SponsersPageUi
-                                        imageURL={sponsor.src}
-                                        alt={sponsor.name}
-                                    /> /////*}
-                                    <BoltSponsers sponsor={sponsor} />
-                                </div>
-                            ))}
-                        </div>
-                    </div> */}
                 </div>
             </div>
 

@@ -1,0 +1,75 @@
+/* Custom styles for BubbleUI component */
+.myBubbleUI {
+    width: 100%;
+    height: 800px;
+    overflow: hidden;
+    background: transparent; /* remove any glass background */
+    position: relative;
+}
+
+.child {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.myBubbleUI.active {
+    cursor: grabbing !important;
+}
+
+.myBubbleUI ._2MD0k {
+    cursor: grab;
+    transition: cursor 0.2s ease;
+}
+
+.childComponent {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    position: relative;
+}
+
+.childComponent img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .myBubbleUI {
+        height: 500px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .myBubbleUI {
+        height: 400px !important;
+    }
+}
+
+/* Hover effects */
+.childComponent:hover {
+    z-index: 10;
+    transform: scale(1.03);
+    transition: transform 0.15s ease;
+}
+
+/* Loading animation for bubbles */
+@keyframes bubbleFloat {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.childComponent {
+    animation: bubbleFloat 3s ease-in-out infinite;
+    animation-delay: calc(var(--index) * 0.1s);
+}
