@@ -1,11 +1,11 @@
 import { useState } from "react";
-import technicalEvents from "@/Constants/Events/TechnicalEvents.json";
 import managerialEvents from "@/Constants/Events/ManagerialEvents.json";
 import roboticsEvents from "@/Constants/Events/RoboticsEvents.json";
 import Domain from "@/Components/EventsPage/Domain";
 import FeaturedEvents from "@/Components/EventsPage/FeaturedEvents";
 import Hero from "@/Components/EventsPage/Hero-Events";
 import Footer from "@/Components/Other/Footer";
+import { FlagshipEventsCarousel } from "@/Components/EventsPage/FlagshipEventsCarousel";
 
 // Extend the Window interface to include __DOMAIN_EVENTS__
 declare global {
@@ -21,6 +21,7 @@ const domainJsons = [
 
 const EventsPage = () => {
   // State for each domain's current card index
+  const [currentSection, setCurrentSection] = useState("technical");
   const [domainIndices, setDomainIndices] = useState(domainJsons.map(() => 0));
 
   // Setter for a specific domain index
@@ -42,7 +43,15 @@ const EventsPage = () => {
     <div>
       <Hero />
       <div className="h-auto w-full py-10 md:py-30 px-[8vw] space-y-15 md:space-y-40">
-        <FeaturedEvents setDomainIndex={setDomainIndex} />
+        {/* Flagship Events Section */}
+        <h2 className="w-full font-cattedrale text-[6vw] md:text-[5vw] lg:text-7xl text-center text-white drop-shadow-2xl tracking-wide mb-4">
+          FEATURED EVENTS
+        </h2>
+        <section className="flex-1 flex items-start justify-center pt-20">
+          <div className="w-full">
+            <FlagshipEventsCarousel currentSection={currentSection} />
+          </div>
+        </section>
 
         {domainJsons.map((domain, idx) => (
           <Domain

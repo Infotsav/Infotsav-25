@@ -56,7 +56,7 @@ const Domain: React.FC<DomainProps> = ({
   // Initialize auto-scroll on mount
   useEffect(() => {
     startAutoScroll();
-    
+
     // Cleanup on unmount
     return () => {
       stopAutoScroll();
@@ -99,17 +99,28 @@ const Domain: React.FC<DomainProps> = ({
       <h2 className="text-[5vw] text-center text-gray-200 font-cattedrale tracking-wide mb-0">
         {domainName}
       </h2>
-  <div className="mt-1 sm:mt-0.5" />
+      <div className="mt-1 sm:mt-0.5" />
 
       {/* Carousel container */}
       <div
         className="relative h-[400px] sm:h-[520px] md:h-[600px] w-[98vw] sm:w-[90%] max-w-[1400px] flex items-center justify-center overflow-x-hidden"
         onMouseEnter={stopAutoScroll}
-        onMouseLeave={startAutoScroll}
-      >
+        onMouseLeave={startAutoScroll}>
         {/* Fade overlays - hidden on mobile, narrower on sm */}
-        <div className="hidden sm:block pointer-events-none absolute left-0 top-0 h-full w-6 sm:w-16 md:w-32 z-20" style={{background: 'linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 100%)'}} />
-        <div className="hidden sm:block pointer-events-none absolute right-0 top-0 h-full w-6 sm:w-16 md:w-32 z-20" style={{background: 'linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 100%)'}} />
+        <div
+          className="hidden sm:block pointer-events-none absolute left-0 top-0 h-full w-6 sm:w-16 md:w-32 z-20"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 100%)",
+          }}
+        />
+        <div
+          className="hidden sm:block pointer-events-none absolute right-0 top-0 h-full w-6 sm:w-16 md:w-32 z-20"
+          style={{
+            background:
+              "linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 100%)",
+          }}
+        />
 
         {/* Left nav button - always at side, smaller on mobile */}
         <div className="absolute left-1 sm:left-8 top-1/2 -translate-y-1/2 z-30">
@@ -123,8 +134,7 @@ const Domain: React.FC<DomainProps> = ({
           {/* Left card - hide on mobile */}
           <div
             className="hidden sm:block absolute left-0 top-1/2 -translate-y-1/2 z-10 h-[260px] sm:h-[360px] md:h-[460px] w-[160px] sm:w-[240px] md:w-[320px] scale-95 opacity-70 transition-all duration-500 ease-out"
-            style={{ left: '-24px' }}
-          >
+            style={{ left: "-24px" }}>
             <Card
               id={getCardId(leftIndex)}
               title={cards[leftIndex].title}
@@ -136,8 +146,13 @@ const Domain: React.FC<DomainProps> = ({
           {/* Center card - responsive size, narrower on mobile */}
           <div
             key={currentIndex}
-            className={`relative z-20 h-[360px] sm:h-[420px] md:h-[520px] w-[75vw] max-w-[98vw] sm:w-[300px] md:w-[380px] mx-auto transition-all duration-500 ease-out px-2 ${hasInteracted ? (direction === "right" ? "animate-slide-in-right" : "animate-slide-in-left") : ""}`}
-          >
+            className={`relative z-20 h-[360px] sm:h-[460px] md:h-[560px] w-[86vw] max-w-[98vw] sm:w-[420px] md:w-[520px] mx-auto transition-all duration-500 ease-out px-2 ${
+              hasInteracted
+                ? direction === "right"
+                  ? "animate-slide-in-right"
+                  : "animate-slide-in-left"
+                : ""
+            }`}>
             <Card
               id={getCardId(currentIndex)}
               title={cards[currentIndex].title}
@@ -149,8 +164,7 @@ const Domain: React.FC<DomainProps> = ({
           {/* Right card - hide on mobile */}
           <div
             className="hidden sm:block absolute right-0 top-1/2 -translate-y-1/2 z-10 h-[260px] sm:h-[360px] md:h-[460px] w-[160px] sm:w-[240px] md:w-[320px] scale-95 opacity-70 transition-all duration-500 ease-out"
-            style={{ right: '-24px' }}
-          >
+            style={{ right: "-24px" }}>
             <Card
               id={getCardId(rightIndex)}
               title={cards[rightIndex].title}
@@ -173,7 +187,7 @@ const Domain: React.FC<DomainProps> = ({
           <button
             key={idx}
             className={`w-3 h-3 rounded-full focus:outline-none transition-all duration-300 border-2 border-white ${
-              (currentIndex === idx)
+              currentIndex === idx
                 ? "bg-white scale-110 shadow"
                 : "bg-gray-400 opacity-60"
             }`}
