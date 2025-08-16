@@ -268,3 +268,34 @@ body {
         @apply bg-background text-foreground;
     }
 }
+
+/* Carousel directional slide animations */
+@keyframes slide-in-left {
+    from {
+        opacity: 0;
+        transform: translateX(24px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(-24px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.animate-slide-in-left {
+    animation: slide-in-left 360ms ease-out both;
+}
+
+.animate-slide-in-right {
+    animation: slide-in-right 360ms ease-out both;
+}
