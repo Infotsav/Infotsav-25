@@ -302,7 +302,7 @@ const Domain: React.FC<DomainProps> = ({
         </div>
       </div>
       {/* Navigation Dots */}
-      <div className="flex justify-center items-center -mt-2 space-x-3">
+      <div className="flex justify-center items-center space-x-3">
         {cards.map((_, idx) => (
           <button
             key={idx}
