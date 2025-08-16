@@ -41,16 +41,16 @@ const Domain: React.FC<DomainProps> = ({
   );
 
   // Compute scrollLeft to center a specific VIRTUAL index
-  const getScrollLeftForVirtualIndex = (vIdx: number) => {
+  const getScrollLeftForVirtualIndex = React.useCallback((vIdx: number) => {
     const scroller = scrollerRef.current;
     const el = itemRefs.current[vIdx];
     if (!scroller || !el) return 0;
     const left = el.offsetLeft - (scroller.clientWidth - el.clientWidth) / 2;
     return Math.max(0, left);
-  };
+  }, []);
 
   // Scroll to a specific VIRTUAL index
-  const scrollToVirtualIndex = (vIdx: number, smooth = true) => {
+  const scrollToVirtualIndex = React.useCallback((vIdx: number, smooth = true) => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
     isProgrammaticScroll.current = true;
@@ -60,10 +60,10 @@ const Domain: React.FC<DomainProps> = ({
     });
     virtualIndexRef.current = vIdx;
     window.setTimeout(() => (isProgrammaticScroll.current = false), 400);
-  };
+  }, [getScrollLeftForVirtualIndex]);
 
   // Scroll to the nearest virtual index representing the given REAL index
-  const scrollToIndex = (realIdx: number, smooth = true) => {
+  const scrollToIndex = React.useCallback((realIdx: number, smooth = true) => {
     const currentV = virtualIndexRef.current || BASE_OFFSET + currentIndex;
     const candidate = BASE_OFFSET + realIdx; // middle loop
     const candidates = [candidate - L, candidate, candidate + L];
@@ -77,20 +77,22 @@ const Domain: React.FC<DomainProps> = ({
       }
     }
     scrollToVirtualIndex(best, smooth);
-  };
+  }, [BASE_OFFSET, currentIndex, L, scrollToVirtualIndex]);
 
-  const autoScroll = () => {
-    const next = (currentIndex + 1) % cards.length;
+  const autoScroll = React.useCallback(() => {
+    // Always use the latest index for autoscroll
+    const latestIndex = virtualIndexRef.current % cards.length;
+    const next = (latestIndex + 1) % cards.length;
     setCurrentIndex(next);
     scrollToIndex(next);
-  };
+  }, [cards.length, scrollToIndex, setCurrentIndex]);
 
-  const startAutoScroll = () => {
+  const startAutoScroll = React.useCallback(() => {
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
     }
     autoScrollIntervalRef.current = setInterval(autoScroll, 10000); // 10 seconds
-  };
+  }, [autoScroll]);
 
   // Stop auto-scroll timer
   const stopAutoScroll = () => {
@@ -118,31 +120,36 @@ const Domain: React.FC<DomainProps> = ({
     return () => {
       stopAutoScroll();
     };
-  }, []);
+  }, [BASE_OFFSET, currentIndex, scrollToVirtualIndex, startAutoScroll]);
 
   // Restart auto-scroll when currentIndex changes and sync scroll
   useEffect(() => {
     startAutoScroll();
     if (indexFromScrollRef.current) {
-      // Skip recentring if index came from user scroll
+      // If index came from user scroll, do NOT jump back to autoscroll position
       indexFromScrollRef.current = false;
+      // Do not scrollToIndex here, let manual scroll position persist
     } else {
       scrollToIndex(currentIndex);
     }
-  }, [currentIndex]);
+  }, [currentIndex, scrollToIndex, startAutoScroll]);
 
   const goToPrevious = () => {
-    const next = currentIndex === 0 ? L - 1 : currentIndex - 1;
-    setCurrentIndex(next);
-    scrollToIndex(next);
-    resetAutoScroll(); // Reset timer on manual navigation
+  const next = currentIndex === 0 ? L - 1 : currentIndex - 1;
+  setCurrentIndex(next);
+  scrollToIndex(next);
+  resetAutoScroll(); // Reset timer on manual navigation
+  // Update virtualIndexRef so autoscroll resumes from here
+  virtualIndexRef.current = BASE_OFFSET + next;
   };
 
   const goToNext = () => {
-    const next = currentIndex === L - 1 ? 0 : currentIndex + 1;
-    setCurrentIndex(next);
-    scrollToIndex(next);
-    resetAutoScroll(); // Reset timer on manual navigation
+  const next = currentIndex === L - 1 ? 0 : currentIndex + 1;
+  setCurrentIndex(next);
+  scrollToIndex(next);
+  resetAutoScroll(); // Reset timer on manual navigation
+  // Update virtualIndexRef so autoscroll resumes from here
+  virtualIndexRef.current = BASE_OFFSET + next;
   };
 
   // Update currentIndex based on scroll position
@@ -208,7 +215,7 @@ const Domain: React.FC<DomainProps> = ({
       if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current);
       if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
     };
-  }, [currentIndex, setCurrentIndex, cards.length]);
+  }, [currentIndex, setCurrentIndex, cards.length, L, startAutoScroll, getScrollLeftForVirtualIndex]);
 
   // Helper to generate unique card IDs
   const getCardId = (idx: number) =>
@@ -295,7 +302,7 @@ const Domain: React.FC<DomainProps> = ({
         </div>
       </div>
       {/* Navigation Dots */}
-      <div className="flex justify-center items-center -mt-2 space-x-3">
+      <div className="flex justify-center items-center space-x-3">
         {cards.map((_, idx) => (
           <button
             key={idx}
@@ -308,6 +315,8 @@ const Domain: React.FC<DomainProps> = ({
               setCurrentIndex(idx);
               scrollToIndex(idx);
               resetAutoScroll();
+              // Update virtualIndexRef so autoscroll resumes from here
+              virtualIndexRef.current = BASE_OFFSET + idx;
             }}
             aria-label={`Go to card ${idx + 1}`}
           />
