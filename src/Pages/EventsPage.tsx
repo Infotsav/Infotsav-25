@@ -2,7 +2,6 @@ import { useState } from "react";
 import managerialEvents from "@/Constants/Events/ManagerialEvents.json";
 import roboticsEvents from "@/Constants/Events/RoboticsEvents.json";
 import Domain from "@/Components/EventsPage/Domain";
-import FeaturedEvents from "@/Components/EventsPage/FeaturedEvents";
 import Hero from "@/Components/EventsPage/Hero-Events";
 import Footer from "@/Components/Other/Footer";
 import { FlagshipEventsCarousel } from "@/Components/EventsPage/FlagshipEventsCarousel";
@@ -21,7 +20,7 @@ const domainJsons = [
 
 const EventsPage = () => {
   // State for each domain's current card index
-  const [currentSection, setCurrentSection] = useState("technical");
+  const [currentSection] = useState("technical");
   const [domainIndices, setDomainIndices] = useState(domainJsons.map(() => 0));
 
   // Setter for a specific domain index
