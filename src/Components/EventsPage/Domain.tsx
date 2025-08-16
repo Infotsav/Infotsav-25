@@ -26,25 +26,57 @@ const Domain: React.FC<DomainProps> = ({
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const isProgrammaticScroll = useRef(false);
   const rafId = useRef<number | null>(null);
+  const virtualIndexRef = useRef(0);
+  const scrollEndTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const restartTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const indexFromScrollRef = useRef(false);
 
-  // Compute scrollLeft to center a specific card index
-  const getScrollLeftForIndex = (idx: number) => {
+  // Build virtual list (3 loops for seamless wrap)
+  const L = cards.length || 1;
+  const LOOPS = 3;
+  const BASE_OFFSET = L; // middle loop start index
+  const virtualCards = Array.from(
+    { length: LOOPS * L },
+    (_, i) => cards[i % L]
+  );
+
+  // Compute scrollLeft to center a specific VIRTUAL index
+  const getScrollLeftForVirtualIndex = (vIdx: number) => {
     const scroller = scrollerRef.current;
-    const el = itemRefs.current[idx];
+    const el = itemRefs.current[vIdx];
     if (!scroller || !el) return 0;
     const left = el.offsetLeft - (scroller.clientWidth - el.clientWidth) / 2;
     return Math.max(0, left);
   };
 
-  const scrollToIndex = (idx: number, smooth = true) => {
+  // Scroll to a specific VIRTUAL index
+  const scrollToVirtualIndex = (vIdx: number, smooth = true) => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
     isProgrammaticScroll.current = true;
     scroller.scrollTo({
-      left: getScrollLeftForIndex(idx),
+      left: getScrollLeftForVirtualIndex(vIdx),
       behavior: smooth ? "smooth" : "auto",
     });
+    virtualIndexRef.current = vIdx;
     window.setTimeout(() => (isProgrammaticScroll.current = false), 400);
+  };
+
+  // Scroll to the nearest virtual index representing the given REAL index
+  const scrollToIndex = (realIdx: number, smooth = true) => {
+    const currentV = virtualIndexRef.current || BASE_OFFSET + currentIndex;
+    const candidate = BASE_OFFSET + realIdx; // middle loop
+    const candidates = [candidate - L, candidate, candidate + L];
+    let best = candidates[0];
+    let bestDist = Math.abs(candidates[0] - currentV);
+    for (let i = 1; i < candidates.length; i++) {
+      const d = Math.abs(candidates[i] - currentV);
+      if (d < bestDist) {
+        best = candidates[i];
+        bestDist = d;
+      }
+    }
+    scrollToVirtualIndex(best, smooth);
   };
 
   const autoScroll = () => {
@@ -77,8 +109,10 @@ const Domain: React.FC<DomainProps> = ({
   // Initialize auto-scroll on mount
   useEffect(() => {
     startAutoScroll();
-    // align scroll to initial index
-    scrollToIndex(currentIndex, false);
+    // align scroll to initial index in middle loop
+    const startV = BASE_OFFSET + currentIndex;
+    virtualIndexRef.current = startV;
+    scrollToVirtualIndex(startV, false);
 
     // Cleanup on unmount
     return () => {
@@ -89,18 +123,23 @@ const Domain: React.FC<DomainProps> = ({
   // Restart auto-scroll when currentIndex changes and sync scroll
   useEffect(() => {
     startAutoScroll();
-    scrollToIndex(currentIndex);
+    if (indexFromScrollRef.current) {
+      // Skip recentring if index came from user scroll
+      indexFromScrollRef.current = false;
+    } else {
+      scrollToIndex(currentIndex);
+    }
   }, [currentIndex]);
 
   const goToPrevious = () => {
-    const next = currentIndex === 0 ? cards.length - 1 : currentIndex - 1;
+    const next = currentIndex === 0 ? L - 1 : currentIndex - 1;
     setCurrentIndex(next);
     scrollToIndex(next);
     resetAutoScroll(); // Reset timer on manual navigation
   };
 
   const goToNext = () => {
-    const next = currentIndex === cards.length - 1 ? 0 : currentIndex + 1;
+    const next = currentIndex === L - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(next);
     scrollToIndex(next);
     resetAutoScroll(); // Reset timer on manual navigation
@@ -110,29 +149,64 @@ const Domain: React.FC<DomainProps> = ({
   useEffect(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
+
     const onScroll = () => {
       if (isProgrammaticScroll.current) return;
       if (rafId.current) cancelAnimationFrame(rafId.current);
       rafId.current = requestAnimationFrame(() => {
-        const center = scroller.scrollLeft + scroller.clientWidth / 2;
-        let nearest = 0;
-        let min = Infinity;
-        itemRefs.current.forEach((el, idx) => {
-          if (!el) return;
-          const elCenter = el.offsetLeft + el.clientWidth / 2;
-          const d = Math.abs(elCenter - center);
-          if (d < min) {
-            min = d;
-            nearest = idx;
+        // Pause auto-scroll while user is scrolling
+        if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
+        stopAutoScroll();
+
+        // Debounce until scroll settles, then compute nearest and sync index
+        if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current);
+        scrollEndTimerRef.current = setTimeout(() => {
+          const center = scroller.scrollLeft + scroller.clientWidth / 2;
+          let nearest = 0;
+          let min = Infinity;
+          itemRefs.current.forEach((el, idx) => {
+            if (!el) return;
+            const elCenter = el.offsetLeft + el.clientWidth / 2;
+            const d = Math.abs(elCenter - center);
+            if (d < min) {
+              min = d;
+              nearest = idx;
+            }
+          });
+          virtualIndexRef.current = nearest;
+          const realIdx = ((nearest % L) + L) % L;
+          if (realIdx !== currentIndex) {
+            indexFromScrollRef.current = true;
+            setCurrentIndex(realIdx);
           }
-        });
-        if (nearest !== currentIndex) setCurrentIndex(nearest);
+
+          // Teleport when near edges to keep in middle loop window
+          const leftThreshold = Math.floor(L * 0.5);
+          const rightThreshold = Math.floor(L * 2.5);
+          if (nearest <= leftThreshold || nearest >= rightThreshold) {
+            const rebased =
+              nearest <= leftThreshold ? nearest + L : nearest - L;
+            isProgrammaticScroll.current = true;
+            scroller.scrollTo({
+              left: getScrollLeftForVirtualIndex(rebased),
+              behavior: "auto",
+            });
+            virtualIndexRef.current = rebased;
+            window.setTimeout(() => (isProgrammaticScroll.current = false), 0);
+          }
+
+          // restart auto scroll after a short delay
+          restartTimerRef.current = setTimeout(() => startAutoScroll(), 2000);
+        }, 140);
       });
     };
+
     scroller.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       scroller.removeEventListener("scroll", onScroll);
       if (rafId.current) cancelAnimationFrame(rafId.current);
+      if (scrollEndTimerRef.current) clearTimeout(scrollEndTimerRef.current);
+      if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
     };
   }, [currentIndex, setCurrentIndex, cards.length]);
 
@@ -187,25 +261,26 @@ const Domain: React.FC<DomainProps> = ({
             ref={scrollerRef}
             className="hide-scrollbar flex h-full w-full items-center overflow-x-auto scroll-smooth snap-x snap-mandatory gap-6 px-6"
             onMouseDown={stopAutoScroll}
+            onWheel={stopAutoScroll}
             onTouchStart={stopAutoScroll}
             onTouchEnd={startAutoScroll}>
-            {cards.map((card, idx) => (
+            {virtualCards.map((card, vIdx) => (
               <div
-                key={idx}
+                key={vIdx}
                 ref={(el) => {
-                  itemRefs.current[idx] = el;
+                  itemRefs.current[vIdx] = el;
                 }}
-                id={getCardId(idx)}
-                className={`snap-center shrink-0 h-[360px] sm:h-[460px] md:h-[560px] w-[78vw] sm:w-[420px] md:w-[520px] transition-transform duration-300 ${
-                  idx === currentIndex
+                id={getCardId(vIdx % L)}
+                className={`snap-center snap-always shrink-0 h-[360px] sm:h-[460px] md:h-[560px] w-[78vw] sm:w-[420px] md:w-[520px] transition-transform duration-300 ${
+                  vIdx % L === currentIndex
                     ? "scale-[1.03]"
                     : "scale-[0.96] opacity-90"
                 }`}>
                 <Card
-                  id={getCardId(idx)}
+                  id={getCardId(vIdx % L)}
                   title={card.title}
                   description={card.description}
-                  onRegister={() => handleRegister(idx)}
+                  onRegister={() => handleRegister(vIdx % L)}
                 />
               </div>
             ))}
