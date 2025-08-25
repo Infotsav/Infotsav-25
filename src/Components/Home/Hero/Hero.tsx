@@ -56,7 +56,7 @@ const areas: Area[] = [
   },
   {
     name: "Area 4",
-    href: "#about-us",
+    href: "/contact-us",
     coords: [
       [84, 358],
       [114, 333],
