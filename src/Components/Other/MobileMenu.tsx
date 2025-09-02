@@ -8,7 +8,7 @@ const MobileMenu = () => {
         { label: "Home", href: "/" },
         { label: "Events", href: "/events" },
         { label: "Sponsors", href: "/sponsors" },
-        { label: "Ambassador", href: "/campus-ambassador" },
+        { label: "Ambassador", href: "/ambassador" },
         { label: "Contact Us", href: "/contact" },
     ];
     useEffect(() => {
