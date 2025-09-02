@@ -56,7 +56,7 @@ const areas: Area[] = [
   },
   {
     name: "Area 4",
-    href: "/contact-us",
+    href: "/contact",
     coords: [
       [84, 358],
       [114, 333],
@@ -155,6 +155,16 @@ const Hero = () => {
     // Parallax calculations - reduce effect on mobile for better performance
     const moonParallax = isMobile ? scrollY * 0.4 : scrollY * 0.5; // Reduced parallax on mobile
     const logoParallax = isMobile ? scrollY * 0.4 : scrollY * 0.5; // Reduced parallax on mobile
+    function handleContactUsClick() {
+        // Add a class to the body for the transition effect
+        document.body.classList.add('page-transitioning');
+        
+        // Navigate after a short delay to show the transition
+        setTimeout(() => {
+            navigate('/contact');
+        }, 150);
+    }
+
     return (
         <>
             <div className="w-full h-dvh max-h-[800px] relative bg-stone-950 overflow-hidden flex items-center justify-center">
@@ -239,9 +249,10 @@ const Hero = () => {
                                 handleEventsClick();
                             } else if (area.href === '/ambassador') {
                                 handleAmbassadorClick();
-                            }
-                            else if (area.href === '/register') {
+                            } else if (area.href === '/register') {
                                 handleRegisterClick();
+                            } else if (area.href === '/contact') {
+                                handleContactUsClick();
                             }
                         }}
                     />
