@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <div className="relative w-full bg-gradient-to-b from-sky-950 to-teal-700 flex items-center justify-center h-[30vh] md:h-screen overflow-hidden">
+    <div className="relative w-full bg-gradient-to-b from-[#009FAA]/80 to-transparent flex items-center justify-center h-[30vh] md:h-screen overflow-hidden">
       {/* Main text */}
       <h1 className="text-[26vw] tracking-wide font-cattedrale z-[1]">
         Events
