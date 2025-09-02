@@ -1,9 +1,30 @@
 import Contact from "@/Components/ContactUs/Contact";
 import MapSection from "@/Components/ContactUs/MapSection";
+import { useNavigate } from "react-router-dom";
 
 const ContactUs = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full min-h-screen lg:h-screen lg:max-h-[800px] relative bg-stone-950 overflow-hidden flex flex-col lg:flex-row lg:items-center lg:justify-center">
+      <button
+        onClick={() => navigate("/")}
+        className="fixed top-8 left-8 z-30 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-3 hover:bg-white/20 transition-all duration-300 group"
+        aria-label="Back to Home"
+      >
+        <svg
+          className="w-6 h-6 text-white group-hover:text-gray-200 transition-colors"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
       <img
         src="/assets/Images/ContactUs/contact-blur.svg"
         alt=""
