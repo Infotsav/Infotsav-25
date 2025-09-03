@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface ContactProps {
   name: string;
   email: string;
