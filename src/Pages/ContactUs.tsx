@@ -56,11 +56,25 @@ const ContactUs = () => {
         <div className="w-full lg:w-1/2">
           <MapSection/>
         </div>
-        <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 px-0 sm:px-4 lg:px-8">
-          <Contact name="Sashank Gour" email="sashank@example.com" phone="930332369"/>
-          <Contact name="Sashank Gour" email="sashank@example.com" phone="930332369"/>
-          <Contact name="Sashank Gour" email="sashank@example.com" phone="930332369"/>
-          <Contact name="Sashank Gour" email="sashank@example.com" phone="930332369"/>
+         {/* Contacts column */}
+        <div className="w-full lg:w-1/2">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* top/center contact spanning full row on small screens */}
+            <div className="col-span-1 sm:col-span-2">
+              {/* child Contact will be full width on mobile and centered on larger screens */}
+              <div className="flex justify-center">
+                <Contact name="Samyak Chaudhary" email="infotsav@iiitm.ac.in" phone="9993148060" />
+              </div>
+            </div>
+
+            <div className="flex justify-center">
+              <Contact name="Mradul Triwari" email="mradultiwari1708@gmail.com" phone="8881132265" />
+            </div>
+
+            <div className="flex justify-center">
+              <Contact name="Shashank Gour" email="sashank@example.com" phone="93033 32369" />
+            </div>
+          </div>
         </div>
       </div>
 
