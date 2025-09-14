@@ -48,7 +48,7 @@ import Wolfram24 from "/assets/Images/Sponsers/PastSponsers/24/wolfram.png";
 
 // Other Sponsors imports
 import CocaCola from "/assets/Images/Home/Sponsers/otherSponsers/CocaCola.png";
-import MacD from "/assets/Images/Home/Sponsers/otherSponsers/MacD.png";
+// import MacD from "/assets/Images/Home/Sponsers/otherSponsers/MacD.png";
 import PizzaHutOther from "/assets/Images/Home/Sponsers/otherSponsers/PizzaHut.png";
 import Samsung from "/assets/Images/Home/Sponsers/otherSponsers/Samsung.png";
 import SwiggyOther from "/assets/Images/Home/Sponsers/otherSponsers/Swiggy.png";
