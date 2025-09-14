@@ -92,6 +92,12 @@ export const PastSponsors19: Sponsor[] = [
 ];
 
 export const PastSponsors19Page: Sponsor[] = [
+  { name: "CocaCola", src: CocaCola, alt: "COCA COLA LOGO" },
+  { name: "PizzaHut", src: PizzaHutOther, alt: "PIZZA HUT LOGO" },
+  { name: "Samsung", src: Samsung, alt: "SAMSUNG LOGO" },
+  { name: "Swiggy", src: SwiggyOther, alt: "SWIGGY LOGO" },
+  { name: "PayTM", src: PayTMOther, alt: "PAYTM LOGO" },
+  { name: "Unstop", src: UnstopOther, alt: "UNSTOP LOGO" },
   { name: "CK", src: CK19 },
   { name: "CodeChef", src: CodeChef19 },
   { name: "Dainik Bhaskar", src: DainikBhaskar19 },
@@ -105,17 +111,15 @@ export const PastSponsors19Page: Sponsor[] = [
   { name: "MyFM", src: MyFM19 },
   { name: "PayTM", src: PayTM19 },
   { name: "Swiggy", src: Swiggy19 },
-  { name: "SBI", src: SBIOther },
-  { name: "UnionBank", src: UnionBank },
-  { name: "Dainik Bhaskar", src: DB24 }, // this
-];
-
-export const PastSponsors24: generalSponser[] = [
   {
     name: "Aggarwal Caterers",
     src: AggarawalCaterers24,
-    alt: "AGGARWAL CATERERS LOGO",
   },
+  { name: "SBI", src: SBIOther },
+  { name: "UnionBank", src: UnionBank },
+];
+
+export const PastSponsors24: generalSponser[] = [
   { name: "Aptos", src: Aptos24, alt: "APTOS LOGO" },
   { name: "SBI", src: SBI24, alt: "SBI LOGO" },
   { name: "UnionBank", src: UnionBank, alt: "UNIONBANK LOGO" },
@@ -126,10 +130,11 @@ export const PastSponsors24: generalSponser[] = [
     alt: "THE COLLEGE FEVER LOGO",
   },
   { name: "Canara Bank", src: CanaraBank24, alt: "CANARA BANK LOGO" },
-  { name: "Github", src: GithubIcon, alt: "GITHUB LOGO" },
   { name: "Devfolio", src: Devfolio24, alt: "DEVFOLIO LOGO" },
-  { name: "Digital Ocean", src: DigitalOcean24, alt: "DIGITAL OCEAN LOGO" },
+
   { name: "EaseMyTrip", src: EaseMyTrip24, alt: "EASEMYTRIP LOGO" },
+  { name: "Github", src: GithubIcon, alt: "GITHUB LOGO" },
+  { name: "Digital Ocean", src: DigitalOcean24, alt: "DIGITAL OCEAN LOGO" },
   { name: "Edukul", src: Edukul24, alt: "EDUKUL LOGO" },
   { name: "EthIndia", src: EthIndia24, alt: "ETHINDIA LOGO" },
   { name: "FestPav", src: FestPav24, alt: "FESTPAV LOGO" },
