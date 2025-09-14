@@ -7,7 +7,6 @@ import SponsorBubble from "@/Components/ui/SponsorBubble";
 import {
   PastSponsors19Page,
   PastSponsors24,
-  homePageMobileViewSponsers,
 } from "@/Constants/Sponsers/PastSponsors";
 
 interface BubbleSponsorsProps {

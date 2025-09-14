@@ -65,6 +65,7 @@ import GithubIcon from "/assets/Images/Home/Sponsers/currentSponsers/GithubIcon.
 export interface Sponsor {
   name: string;
   src: string;
+  alt?: string;
 }
 
 export interface generalSponser {
