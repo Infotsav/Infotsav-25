@@ -32,7 +32,7 @@ const Sponsors = () => {
       <div className="py-16">
         <div className="flex flex-col items-center gap-16 px-8">
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-cattedrale text-white z-10 text-center">
-            Sponsors
+            Our Proud Sponsors
           </h1>
 
           {/* Interactive Bubble UI for Sponsors */}
