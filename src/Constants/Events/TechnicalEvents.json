@@ -145,5 +145,41 @@
         "description": {
             "overview": "A challenge for the visionaries! Solve pressing problems using frontier tech - AI, ML, blockchain or Data Science. It's not just about ideas, it's about solutions that work, impress, and inspire. Present your innovation and make your pitch count."
         }
+    },
+    {
+    "id": 11,
+    "name": "Callidus Game Jam",
+    "category": "Technical",
+    "about": "A thrilling challenge for game developers to create fun, innovative, and engaging games as per the theme.",
+    "fee": 0,
+    "date": "2025-10-3",
+    "prize": "5k",
+    "img": "https://iili.io/K5Hv0as.webp",
+    "url": "https://unstop.com/hackathons/callidus-game-jam-atal-bihari-vajpayee-indian-institute-of-information-technology-and-management-1557715",
+    "contact": [
+        {
+            "name": "Advait Mishra",
+            "phone": "8707252385",
+            "email": "ajayadvait.mishra@gmail.com"
+        },
+        {
+            "name": "Neelabhro Ghosh",
+            "phone": "7874424895",
+            "email": "neelabhroghosh218@gmail.com"
+        }
+    ],
+    "description": {
+        "overview": "Game Jam is a fast-paced event where teams create a playable game within a limited time frame, pushing creativity and technical skills to the limit.",
+        "rules": {
+            "overview": "Teams must build a fully playable prototype by the end of the jam.",
+            "entry_rules": [
+                "Teams can have up to 3 members.",
+                "Games must be original and free of plagiarism.",
+                "Any game engine or framework is allowed.",
+                "Submissions must include the game executable and source code.",
+                "Judges' decision is final."
+                ]
+            }
+        }
     }
 ]
